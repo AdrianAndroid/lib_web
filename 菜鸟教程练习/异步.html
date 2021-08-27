@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo">Hi!</div>
+	</body>
+
+	<script>
+		// function print() {
+		// 	document.getElementById("demo").innerHTML = "RUNOOB!";
+		// }
+		// setTimeout(print, 3000);
+
+		//setTimeout(function(){document.getElementById("demo").innerHTML = "RUNOOB!";}, 3000)
+		window.onload = function() {
+			var e = document.getElementById("demo");
+			
+			// console.log("begin");
+			// asyncFunc();
+			// console.log("end");
+			
+			// print(1000, "First").then(function() {
+			// 	return print(4000, "Second");
+			// }).then(function() {
+			// 	print(3000, "Third");
+			// });
+			asyncFunc2();
+		}
+		
+		async function asyncFunc3() {
+			let value = await new Promise(function(resolve, reject){
+				setTimeout(function(){resolve("Return value");}, 1000);
+			});
+			console.log(value);
+		}
+		
+		async function asyncFunc2() {
+			try {
+				await new Promise(function(resolve, reject) {
+					setTimeout(function(){throw "Some error";}, 1000);
+				});
+			} catch (err) {
+				console.log(err)
+			}
+		}
+		
+		async function asyncFunc() {
+			console.log("asyncFunc begin")
+			await print(1000, "First");
+			await print(1000, "Second");
+			await print(1000, "Third");
+			console.log("asyncFunc end")
+		}
+		
+		function print(delay, message) {
+			return new Promise(function(resolve, reject){
+				setTimeout(function(){
+					console.log(message);
+					resolve();
+				}, delay);
+			});
+		}
+		
+		function promise02() {
+			new Promise(function(resolve, reject){
+				setTimeout(function() {
+					var a = 0;
+					var b = 0;
+					if (b == 0) reject("Divide zero");
+					else resolve(a/b);
+				}, 2000)
+			}).then(function(value) {
+				console.log("a / b = " + value);
+			}).catch(function(err){
+				//console.log(err);
+				throw "An error"
+			}).finally(function() {
+				console.log("End");
+			});
+		}
+		
+		
+		function promise01() {
+			new Promise(function(resolve, reject) {
+				setTimeout(function(){
+					console.log("resolve");
+					resolve();
+				}, 1000);
+			}).then(function() {
+				return new Promise(function(resolve, reject){
+					console.log("Second");
+					resolve();
+				}, 4000);
+			}).then(function() {
+				setTimeout(function() {
+					console.log("Third");
+				}, 3000);
+			});
+		}
+
+		function load2() {
+			var e = document.getElementById("demo");
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				// 输出接受到的文字数据
+				e.innerHTML = xhr.responseText;
+			}
+			xhr.onerror = function() {
+				e.innerHTML = "请求出错" + arguments[0];
+			}
+			// 发送异步GET请求
+			xhr.open("GET", "https://www.baidu.com", true);
+			xhr.send();
+		}
+
+
+
+		// // Ajax
+		// function loadXMLDoc() {
+		// 	var xmlhttp;
+		// 	if(window.XMLHttpRequest) {
+		// 		xmlhttp = new XMLHttpRequest();
+		// 	} else {
+		// 		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		// 	}
+		// 	xmlhttp.onreadystatechange = function() {
+		// 		if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		// 			document.getElementById("demo").innerHTML = xmlhttp.responseText;
+		// 		} else {
+		// 			document.getElementById("demo").innerHTML = "error"
+		// 		}
+		// 	}
+		// 	xmlhttp.open("GET", "/try/ajax/ajax_info.txt", true);
+		// 	xmlhttp.send();
+		// }
+	</script>
+</html>
